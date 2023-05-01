@@ -81,6 +81,33 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
 
 public class AdapterClass extends RecyclerView.Adapter<AdapterClass.ViewHolder> {
+    ArrayList<ShoppingList> data = new ArrayList<>();
+
+    public AdapterClass(ArrayList<ShoppingList> data) {
+        this.data = data;
+    }
+
+    @NonNull
+    @Override
+    public AdapterClass.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, null));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull AdapterClass.ViewHolder holder, int position) {
+        holder.name.setText(data.get(position).name);
+        Uri uri = Uri.parse(data.get(position).image);
+        //TODO Set Image URI to the file in storage making sure there is a unique name for each file
+        //  Probably just go with the URI from the gallery
+        holder.image.setImageURI(uri);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return data.size();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         ImageView image;
@@ -93,32 +120,4 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.ViewHolder> 
         }
 
     }
-    ArrayList<ShoppingList> mData;
-
-    public AdapterClass(ArrayList<ShoppingList> data) {
-        mData = data;
-    }
-
-    @NonNull
-    @Override
-    public AdapterClass.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, null));
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull AdapterClass.ViewHolder holder, int position) {
-        holder.name.setText(mData.get(position).name);
-        Uri uri = Uri.parse(mData.get(position).image);
-        //TODO Set Image URI to the file in storage making sure there is a unique name for each file
-        //  Probably just go with the URI from the gallery
-        holder.image.setImageURI(uri);
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return mData.size();
-    }
-
-
 }

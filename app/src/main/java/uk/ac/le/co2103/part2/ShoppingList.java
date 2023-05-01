@@ -2,12 +2,20 @@ package uk.ac.le.co2103.part2;
 
 import android.net.Uri;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity(tableName = "shopping_lists")
 public class ShoppingList implements Serializable {
 
-    private String listId;
+    @PrimaryKey(autoGenerate = true)
+    private int listId;
+    @ColumnInfo(name = "name")
     public String name;
+    @ColumnInfo(name = "image")
     public String image;
 
 
@@ -18,11 +26,11 @@ public class ShoppingList implements Serializable {
         this.image = image; // will remove this as wont construct without one
     }
 
-    public String getListId() {
+    public int getListId() {
         return listId;
     }
 
-    public void setListId(String listId) {
+    public void setListId(int listId) {
         this.listId = listId;
     }
 
