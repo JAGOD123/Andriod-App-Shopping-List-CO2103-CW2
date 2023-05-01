@@ -25,4 +25,7 @@ public interface ShoppingListDao {
 
     @Delete
     void Delete(ShoppingList sl);
+
+    @Query("DELETE FROM shopping_lists")
+    void nukeTable();
 }

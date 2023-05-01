@@ -26,6 +26,7 @@ public class CreateListActivity extends AppCompatActivity {
     ImageView IVPreviewImage;
     ShoppingList newSL;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,14 +60,12 @@ public class CreateListActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-
             // compare the resultCode with the
             // SELECT_PICTURE constant
             if (requestCode == PICK_IMAGE) {
                 // Get the url of the image from data
                 Uri selectedImageUri = data.getData();
                 if (null != selectedImageUri) {
-                    /*
                     // Get the bitmap from the Uri using the MediaStore API
                     Bitmap bitmap = null;
                     try {
@@ -75,9 +74,16 @@ public class CreateListActivity extends AppCompatActivity {
                         throw new RuntimeException(e);
                     }
 
+                    String savePath = selectedImageUri.toString().substring(
+                            selectedImageUri.toString().indexOf("primary") + "primary".length() + 1);
+
                     // Create a new file within your app's internal storage directory
                     FileOutputStream outputStream;
-                    File file = new File(getFilesDir(), "my_image.jpg");
+                    File file = new File(getFilesDir(), savePath);
+
+
+
+                    Log.d("URI", String.valueOf(selectedImageUri));
                     Log.d("tag", String.valueOf(getFilesDir()));
                     // Use a FileOutputStream to write the image data to the file
                     try {
@@ -88,13 +94,14 @@ public class CreateListActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    */
+
 
 
                     // update the preview image in the layout
                     IVPreviewImage.setImageURI(selectedImageUri);
                     Log.d(TAG, selectedImageUri.toString());
-                    newSL.setImage(selectedImageUri.toString());
+                    newSL.setImage(getFilesDir().getPath() + "/" + savePath);
+                    Log.d(TAG+4, getFilesDir().getPath() + savePath);
                 }
             }
         }

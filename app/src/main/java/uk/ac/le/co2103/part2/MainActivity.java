@@ -30,13 +30,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //.d(LIST + "1",data);
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_main);
 
         ShoppingListDatabase db = ShoppingListDatabase.getInstance(this);
         ShoppingListDao dao = db.shoppingListDao();
+
+        //
+        //dao.nukeTable();
+
 
         Intent intent_in = getIntent();
         Bundle b = intent_in.getExtras();

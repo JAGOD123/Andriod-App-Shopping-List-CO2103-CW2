@@ -2,6 +2,7 @@ package uk.ac.le.co2103.part2;
 
 import android.content.Context;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +100,8 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.ViewHolder> 
         Uri uri = Uri.parse(data.get(position).image);
         //TODO Set Image URI to the file in storage making sure there is a unique name for each file
         //  Probably just go with the URI from the gallery
+
+        Log.d("HERE"+position,uri.toString());
         holder.image.setImageURI(uri);
 
     }
@@ -114,10 +117,7 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.ViewHolder> 
         public ViewHolder(@NonNull View view) {
             super(view);
             name = view.findViewById(R.id.TV_name);
-            //Log.d("tag","name : "+ name.toString());
             image = view.findViewById(R.id.IV_list);
-            //Log.d("tag","image : "+ image.toString());
         }
-
     }
 }
