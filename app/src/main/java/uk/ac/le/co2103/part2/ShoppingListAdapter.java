@@ -21,19 +21,33 @@ import uk.ac.le.co2103.part2.model.ShoppingList;
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
     List<ShoppingList> data;
     Context context;
+    private OnItemLongClickListener longClickListener;
     private ShoppingListDao shoppingListDao;
 
 
-    public ShoppingListAdapter(ShoppingListDao shoppingListDao, List<ShoppingList> data) {
+    public ShoppingListAdapter(List<ShoppingList> data, OnItemLongClickListener longClickListener) {
         this.data = data;
-        this.shoppingListDao = shoppingListDao;
+        this.longClickListener = longClickListener;
     }
 
     @NonNull
     @Override
     public ShoppingListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, null));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, null);
+        ShoppingListAdapter.ViewHolder viewHolder = new ShoppingListAdapter.ViewHolder(view);
+
+        viewHolder.itemView.setOnLongClickListener(v -> {
+            if (longClickListener != null) {
+                int position = viewHolder.getAdapterPosition();
+                longClickListener.onItemLongClick(position);
+                return true;
+            }
+            return false;
+        });
+        return viewHolder;
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull ShoppingListAdapter.ViewHolder holder, int position) {
@@ -42,8 +56,6 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             Uri uri = Uri.parse(data.get(position).image);
             holder.image.setImageURI(uri);
         }
-
-
     }
 
     @Override
@@ -51,9 +63,13 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         return data.size();
     }
 
-
-
-
+    public void deleteShoppingList(ShoppingListDao dao, int position) {
+        ShoppingList shoppingList = dao.getAll().get(position);
+        //dao.delete(shoppingList);
+        dao.deleteProductsInList(shoppingList.getProducts());
+        dao.getAll().remove(position);
+        notifyItemRemoved(position);
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         boolean onLongClick;
@@ -65,15 +81,6 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             image = view.findViewById(R.id.IV_list);
         }
 
-        /*
-        public void deleteItem(int position) {
-            ShoppingList shoppingList = data.get(position);
-            shoppingListDao.delete(shoppingList);
-            shoppingListDao.deleteProductsInList(shoppingList.getProducts());
-            data.remove(position);
-            notifyItemRemoved(position);
-        }
-        */
 
     }
 }

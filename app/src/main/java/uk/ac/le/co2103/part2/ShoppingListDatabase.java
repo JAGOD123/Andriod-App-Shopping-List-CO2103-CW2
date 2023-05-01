@@ -18,7 +18,6 @@ public abstract class ShoppingListDatabase extends RoomDatabase {
         if (INSTANCE == null){
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     ShoppingListDatabase.class, "shopping_list_database")
-                    .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .build();
         }
