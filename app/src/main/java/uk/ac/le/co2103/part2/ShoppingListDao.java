@@ -1,6 +1,5 @@
 package uk.ac.le.co2103.part2;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -8,6 +7,8 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
+
+import uk.ac.le.co2103.part2.model.ShoppingList;
 
 @Dao
 public interface ShoppingListDao {
@@ -24,8 +25,10 @@ public interface ShoppingListDao {
     void update(ShoppingList sl);
 
     @Delete
-    void Delete(ShoppingList sl);
+    void delete(ShoppingList sl);
 
+    @Query("DELETE FROM shopping_lists WHERE productListId = :shoppingListId")
+    void deleteProductsInList(String shoppingListId);
     @Query("DELETE FROM shopping_lists")
     void nukeTable();
 }

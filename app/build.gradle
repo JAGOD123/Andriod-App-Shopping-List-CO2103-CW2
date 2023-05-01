@@ -46,6 +46,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.5.3'
     annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
+    implementation 'com.google.code.gson:gson:2.8.2'
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel:$rootProject.lifecycleVersion"

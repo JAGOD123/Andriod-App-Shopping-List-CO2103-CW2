@@ -1,12 +1,13 @@
-package uk.ac.le.co2103.part2;
-
-import android.net.Uri;
+package uk.ac.le.co2103.part2.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.List;
+
+import uk.ac.le.co2103.part2.TypeConverters;
 
 @Entity(tableName = "shopping_lists")
 public class ShoppingList implements Serializable {
@@ -17,6 +18,9 @@ public class ShoppingList implements Serializable {
     public String name;
     @ColumnInfo(name = "image")
     public String image;
+
+    @ColumnInfo(name = "productListId")
+    public String products;
 
 
     public ShoppingList() {}
@@ -47,6 +51,14 @@ public class ShoppingList implements Serializable {
     }
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getProducts() {
+        return products;
+    }
+
+    public void setProducts(String products) {
+        this.products = products;
     }
 
     @Override

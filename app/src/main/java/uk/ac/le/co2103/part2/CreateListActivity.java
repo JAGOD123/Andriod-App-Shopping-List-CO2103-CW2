@@ -4,21 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+
+import uk.ac.le.co2103.part2.model.ShoppingList;
 
 public class CreateListActivity extends AppCompatActivity {
 
@@ -38,11 +37,14 @@ public class CreateListActivity extends AppCompatActivity {
     public void onClickSave(View v) {
         Intent intent = new Intent(CreateListActivity.this, MainActivity.class);
         EditText listName = (EditText) v.getRootView().findViewById(R.id.inputNameBox);
-        if (listName.getText().toString() != null){
+        Log.d(TAG, listName.getText().toString());
+        if (!listName.getText().toString().equals("")){
             newSL.setName(listName.getText().toString());
-            Log.d("System.out", newSL.getName());
             intent.putExtra("NEW_SHOPPING_LIST", newSL);
             startActivity(intent);
+        } else {
+            Toast toast = Toast.makeText(this, "Needs a List Name", Toast.LENGTH_SHORT);
+            toast.show();
         }
 
 
@@ -76,15 +78,9 @@ public class CreateListActivity extends AppCompatActivity {
 
                     String savePath = selectedImageUri.toString().substring(
                             selectedImageUri.toString().indexOf("primary") + "primary".length() + 1);
-
                     // Create a new file within your app's internal storage directory
                     FileOutputStream outputStream;
                     File file = new File(getFilesDir(), savePath);
-
-
-
-                    Log.d("URI", String.valueOf(selectedImageUri));
-                    Log.d("tag", String.valueOf(getFilesDir()));
                     // Use a FileOutputStream to write the image data to the file
                     try {
                         outputStream = new FileOutputStream(file);
@@ -95,13 +91,10 @@ public class CreateListActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-
-
                     // update the preview image in the layout
                     IVPreviewImage.setImageURI(selectedImageUri);
-                    Log.d(TAG, selectedImageUri.toString());
-                    newSL.setImage(getFilesDir().getPath() + "/" + savePath);
-                    Log.d(TAG+4, getFilesDir().getPath() + savePath);
+                    String fullSavePath = getFilesDir().getPath() + "/" + savePath;
+                    newSL.setImage(fullSavePath);
                 }
             }
         }
