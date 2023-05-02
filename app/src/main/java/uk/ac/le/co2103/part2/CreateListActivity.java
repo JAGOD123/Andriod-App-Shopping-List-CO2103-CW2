@@ -24,7 +24,8 @@ public class CreateListActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     ImageView IVPreviewImage;
     ShoppingList newSL;
-
+    ShoppingListDatabase db = ShoppingListDatabase.getInstance(this);
+    ShoppingListDao dao = db.shoppingListDao();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class CreateListActivity extends AppCompatActivity {
             newSL.setName(listName.getText().toString());
             intent.putExtra("NEW_SHOPPING_LIST", newSL);
             startActivity(intent);
+            dao.insert(newSL);
         } else {
             Toast toast = Toast.makeText(this, "Needs a List Name", Toast.LENGTH_SHORT);
             toast.show();
