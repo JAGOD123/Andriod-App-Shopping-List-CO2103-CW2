@@ -12,6 +12,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.*;
 
+import uk.ac.le.co2103.part2.activity.MainActivity;
+
 /**
  * Instrumented test, which will execute on an Android device.
  *

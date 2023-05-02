@@ -11,14 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lab13">
         <activity
-            android:name=".ShoppingListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CreateListActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +19,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+            <activity
+                android:name=".activity.ShoppingListActivity"
+                android:exported="false"
+                android:parentActivityName=".activity.MainActivity"/>
+                <activity
+                    android:name=".activity.AddProductActivity"
+                    android:parentActivityName=".activity.CreateListActivity" />
+        <activity
+            android:name=".activity.CreateListActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity" />
+
+
     </application>
 
 </manifest>

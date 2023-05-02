@@ -1,4 +1,4 @@
-package uk.ac.le.co2103.part2;
+package uk.ac.le.co2103.part2.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,15 +12,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import uk.ac.le.co2103.part2.R;
+import uk.ac.le.co2103.part2.adapter.ShoppingListAdapter;
+import uk.ac.le.co2103.part2.database.ShoppingListDao;
+import uk.ac.le.co2103.part2.database.ShoppingListDatabase;
+import uk.ac.le.co2103.part2.listener.OnItemClickListener;
+import uk.ac.le.co2103.part2.listener.OnItemLongClickListener;
 
-import uk.ac.le.co2103.part2.model.ShoppingList;
-
-public class MainActivity extends AppCompatActivity implements OnItemLongClickListener{
+public class MainActivity extends AppCompatActivity implements OnItemLongClickListener, OnItemClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String LIST = "LIST";
+
 
 
     @Override
@@ -28,24 +33,15 @@ public class MainActivity extends AppCompatActivity implements OnItemLongClickLi
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_main);
+        ShoppingListDao dao = ShoppingListDatabase.getInstance(this).shoppingListDao();
 
-        ShoppingListDatabase db = ShoppingListDatabase.getInstance(this);
-        ShoppingListDao dao = db.shoppingListDao();
         Log.d(LIST, dao.getAll().toString());
 
         //
         //dao.nukeTable();
 
-        /*
-        Intent intent_in = getIntent();
-        Bundle b = intent_in.getExtras();
-        if (b!=null){
-            ShoppingList sl = (ShoppingList) b.getSerializable("NEW_SHOPPING_LIST");
-            dao.insert(sl);
-        }
-         */
         RecyclerView rvShoppingList = (RecyclerView) findViewById(R.id.recyclerview);
-        ShoppingListAdapter adapter = new ShoppingListAdapter(dao.getAll(), this);
+        ShoppingListAdapter adapter = new ShoppingListAdapter(dao.getAll(), this, this);
         rvShoppingList.setAdapter(adapter);
         rvShoppingList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     }
@@ -55,9 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnItemLongClickLi
         startActivity(intent);
     }
 
-
-    //TODO Items Delete, seems to go to create a new list if last item is deleted,
-    //  need to update database each time
+    // Long Click
     @SuppressLint("SetTextI18n")
     @Override
     public void onItemLongClick(int position) {
@@ -67,10 +61,8 @@ public class MainActivity extends AppCompatActivity implements OnItemLongClickLi
         titleView.setText("Delete ShoppingList?");
         TextView messageView = dialog.findViewById(R.id.popup_box_message);
         messageView.setText("Are you Sure you want to delete this Shopping List");
-
+        ShoppingListDao dao = ShoppingListDatabase.getInstance(this).shoppingListDao();
         Button button = dialog.findViewById(R.id.popup_box_button);
-        ShoppingListDatabase db = ShoppingListDatabase.getInstance(this);
-        ShoppingListDao dao = db.shoppingListDao();
         button.setOnClickListener(v -> {
 
             dao.delete(dao.getAll().get(position));
@@ -81,6 +73,14 @@ public class MainActivity extends AppCompatActivity implements OnItemLongClickLi
         dialog.show();
     }
 
-
-
+    // Short Click
+    @Override
+    public void onItemClick(int position) {
+        ShoppingListDao dao = ShoppingListDatabase.getInstance(this).shoppingListDao();
+        Toast toast = Toast.makeText(this, dao.getAll().get(position).name, Toast.LENGTH_SHORT);
+        toast.show();
+        Intent intent = new Intent(MainActivity.this, ShoppingListActivity.class);
+        intent.putExtra("DATA", dao.getAll().get(position));
+        startActivity(intent);
+    }
 }

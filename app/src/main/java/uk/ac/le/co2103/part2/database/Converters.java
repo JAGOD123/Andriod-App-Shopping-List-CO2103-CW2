@@ -1,4 +1,4 @@
-package uk.ac.le.co2103.part2;
+package uk.ac.le.co2103.part2.database;
 
 import androidx.room.TypeConverter;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 import uk.ac.le.co2103.part2.model.Product;
 
-public class TypeConverters {
+public class Converters {
     static Gson gson = new Gson();
 
     @TypeConverter

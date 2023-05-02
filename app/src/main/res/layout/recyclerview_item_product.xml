@@ -14,7 +14,7 @@
 
 
         <TextView
-            android:id="@+id/TV_name"
+            android:id="@+id/TV_P_name"
             android:layout_width="117dp"
             android:layout_height="80dp"
 
@@ -25,7 +25,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/TV_quantity"
+            android:id="@+id/TV_P_quantity"
             android:layout_width="145dp"
             android:layout_height="80dp"
 
@@ -37,7 +37,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/TV_unit"
+            android:id="@+id/TV_P_unit"
             android:layout_width="145dp"
             android:layout_height="80dp"
 

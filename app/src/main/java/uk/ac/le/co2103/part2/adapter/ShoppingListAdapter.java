@@ -1,9 +1,6 @@
-package uk.ac.le.co2103.part2;
+package uk.ac.le.co2103.part2.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,24 +13,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import uk.ac.le.co2103.part2.listener.OnItemClickListener;
+import uk.ac.le.co2103.part2.listener.OnItemLongClickListener;
+import uk.ac.le.co2103.part2.R;
+import uk.ac.le.co2103.part2.database.ShoppingListDao;
 import uk.ac.le.co2103.part2.model.ShoppingList;
+
+//TODO add a up button using navigation back to the main activity
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
     List<ShoppingList> data;
     Context context;
+    private OnItemClickListener clickListener;
     private OnItemLongClickListener longClickListener;
     private ShoppingListDao shoppingListDao;
 
 
-    public ShoppingListAdapter(List<ShoppingList> data, OnItemLongClickListener longClickListener) {
+    public ShoppingListAdapter(List<ShoppingList> data, OnItemLongClickListener longClickListener,
+                               OnItemClickListener clickListener) {
         this.data = data;
         this.longClickListener = longClickListener;
+        this.clickListener = clickListener;
     }
 
     @NonNull
     @Override
     public ShoppingListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, null);
+
+        // Click listener melarky
         ShoppingListAdapter.ViewHolder viewHolder = new ShoppingListAdapter.ViewHolder(view);
 
         viewHolder.itemView.setOnLongClickListener(v -> {
@@ -44,10 +52,13 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             }
             return false;
         });
+        viewHolder.itemView.setOnClickListener(v -> {
+            int position = viewHolder.getAdapterPosition();
+            clickListener.onItemClick(position);
+        });
         return viewHolder;
+
     }
-
-
 
     @Override
     public void onBindViewHolder(@NonNull ShoppingListAdapter.ViewHolder holder, int position) {
@@ -63,6 +74,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         return data.size();
     }
 
+    /*
     public void deleteShoppingList(ShoppingListDao dao, int position) {
         ShoppingList shoppingList = dao.getAll().get(position);
         //dao.delete(shoppingList);
@@ -71,13 +83,14 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         notifyItemRemoved(position);
     }
 
+     */
+
     public class ViewHolder extends RecyclerView.ViewHolder{
-        boolean onLongClick;
         TextView name;
         ImageView image;
         public ViewHolder(@NonNull View view) {
             super(view);
-            name = view.findViewById(R.id.TV_name);
+            name = view.findViewById(R.id.TV_P_name);
             image = view.findViewById(R.id.IV_list);
         }
 

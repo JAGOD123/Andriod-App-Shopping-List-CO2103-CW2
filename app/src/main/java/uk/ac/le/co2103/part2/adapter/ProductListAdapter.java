@@ -1,6 +1,6 @@
-package uk.ac.le.co2103.part2;
+package uk.ac.le.co2103.part2.adapter;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,40 +9,38 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import uk.ac.le.co2103.part2.model.Product;
+import uk.ac.le.co2103.part2.R;
+import uk.ac.le.co2103.part2.model.ShoppingList;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
 
-    private List<Product> mProducts;
+    private ShoppingList sl;
 
-    public ProductListAdapter(Context context) {
-        mProducts = new ArrayList<>();
-    }
 
-    public void setProducts(List<Product> products) {
-        mProducts = products;
-        notifyDataSetChanged();
+    public ProductListAdapter(ShoppingList sl) {
+        this.sl = sl;
     }
 
     @NonNull
     @Override
     public ProductListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ProductListAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item_product, null));
+        return new ProductListAdapter.ViewHolder(LayoutInflater.from(
+                parent.getContext()).inflate(R.layout.recyclerview_item_product,
+                null));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
-        holder.mNameTextView.setText(mProducts.get(position).name);
-        holder.mQuantityTextView.setText(mProducts.get(position).quantity);
-        holder.mUnitTextView.setText(mProducts.get(position).unit);
+        //holder.mTitleTextView.setText(sl.name);
+        holder.mNameTextView.setText(sl.products.get(position).name);
+        holder.mQuantityTextView.setText(Integer.toString(sl.products.get(position).quantity));
+        holder.mUnitTextView.setText(sl.products.get(position).unit);
     }
 
     @Override
     public int getItemCount() {
-        return mProducts.size();
+        return sl.products.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,9 +51,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mNameTextView = itemView.findViewById(R.id.TV_name);
-            mQuantityTextView = itemView.findViewById(R.id.TV_quantity);
-            mUnitTextView = itemView.findViewById(R.id.TV_unit);
+            mNameTextView = itemView.findViewById(R.id.TV_P_name);
+            mQuantityTextView = itemView.findViewById(R.id.TV_P_quantity);
+            mUnitTextView = itemView.findViewById(R.id.TV_P_unit);
         }
         /*
 

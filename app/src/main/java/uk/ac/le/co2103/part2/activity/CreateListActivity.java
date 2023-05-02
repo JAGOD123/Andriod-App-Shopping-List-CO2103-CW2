@@ -1,4 +1,4 @@
-package uk.ac.le.co2103.part2;
+package uk.ac.le.co2103.part2.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +16,13 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import uk.ac.le.co2103.part2.R;
+import uk.ac.le.co2103.part2.database.ShoppingListDao;
+import uk.ac.le.co2103.part2.database.ShoppingListDatabase;
+import uk.ac.le.co2103.part2.model.Product;
 import uk.ac.le.co2103.part2.model.ShoppingList;
 
 public class CreateListActivity extends AppCompatActivity {
@@ -24,6 +30,7 @@ public class CreateListActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     ImageView IVPreviewImage;
     ShoppingList newSL;
+    //TODO Cant open new ShoppingList
     ShoppingListDatabase db = ShoppingListDatabase.getInstance(this);
     ShoppingListDao dao = db.shoppingListDao();
 
@@ -41,6 +48,7 @@ public class CreateListActivity extends AppCompatActivity {
         Log.d(TAG, listName.getText().toString());
         if (!listName.getText().toString().equals("")){
             newSL.setName(listName.getText().toString());
+            newSL.setProducts(new ArrayList<>());
             intent.putExtra("NEW_SHOPPING_LIST", newSL);
             startActivity(intent);
             dao.insert(newSL);
@@ -48,8 +56,6 @@ public class CreateListActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(this, "Needs a List Name", Toast.LENGTH_SHORT);
             toast.show();
         }
-
-
     }
 
     int PICK_IMAGE = 200;
@@ -61,6 +67,7 @@ public class CreateListActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(in, "Select Picture"), PICK_IMAGE);
     }
 
+    // Image from gallery
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {

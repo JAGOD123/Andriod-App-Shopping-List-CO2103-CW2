@@ -7,8 +7,6 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 import java.util.List;
 
-import uk.ac.le.co2103.part2.TypeConverters;
-
 @Entity(tableName = "shopping_lists")
 public class ShoppingList implements Serializable {
 
@@ -20,7 +18,7 @@ public class ShoppingList implements Serializable {
     public String image;
 
     @ColumnInfo(name = "productListId")
-    public String products;
+    public List<Product> products;
 
 
     public ShoppingList() {}
@@ -53,20 +51,21 @@ public class ShoppingList implements Serializable {
         this.image = image;
     }
 
-    public String getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(String products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 
     @Override
     public String toString() {
         return "ShoppingList{" +
-                "listId='" + listId + '\'' +
+                "listId=" + listId +
                 ", name='" + name + '\'' +
                 ", image='" + image + '\'' +
+                ", products=" + products +
                 '}';
     }
 }

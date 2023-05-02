@@ -3,8 +3,10 @@ package uk.ac.le.co2103.part2.model;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class Product {
+public class Product implements Serializable {
     @PrimaryKey
     public String name;
 
