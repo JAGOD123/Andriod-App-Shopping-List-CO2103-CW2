@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "shopping_lists")
@@ -27,6 +28,15 @@ public class ShoppingList implements Serializable {
         this.name = name;
         this.image = image; // will remove this as wont construct without one
     }
+
+    public boolean productInList(Product productToFind){
+        for (Product product : this.products){
+            if (product.name.equalsIgnoreCase(productToFind.name)){return true;}
+        }
+        return false;
+    }
+
+
 
     public int getListId() {
         return listId;

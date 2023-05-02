@@ -77,10 +77,11 @@ public class MainActivity extends AppCompatActivity implements OnItemLongClickLi
     @Override
     public void onItemClick(int position) {
         ShoppingListDao dao = ShoppingListDatabase.getInstance(this).shoppingListDao();
-        Toast toast = Toast.makeText(this, dao.getAll().get(position).name, Toast.LENGTH_SHORT);
-        toast.show();
+        //Toast toast = Toast.makeText(this, dao.getAll().get(position).name, Toast.LENGTH_SHORT);
+        //toast.show();
         Intent intent = new Intent(MainActivity.this, ShoppingListActivity.class);
-        intent.putExtra("DATA", dao.getAll().get(position));
+        Log.d(TAG, "onItemClick:" + dao.getAll().get(position).getListId());
+        intent.putExtra("SL_ID", dao.getAll().get(position).getListId());
         startActivity(intent);
     }
 }

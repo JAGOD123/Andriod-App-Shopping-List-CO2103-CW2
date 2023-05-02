@@ -30,7 +30,7 @@ public class CreateListActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     ImageView IVPreviewImage;
     ShoppingList newSL;
-    //TODO Cant open new ShoppingList
+
     ShoppingListDatabase db = ShoppingListDatabase.getInstance(this);
     ShoppingListDao dao = db.shoppingListDao();
 

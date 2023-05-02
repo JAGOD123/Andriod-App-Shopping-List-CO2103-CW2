@@ -15,18 +15,13 @@ public class Converters {
     static Gson gson = new Gson();
 
     @TypeConverter
-    public static List<Product> stringToProducts(String data) {
-        if (data == null) {
-            return Collections.emptyList();
-        }
-
-        Type listType = new TypeToken<List<Product>>() {}.getType();
-
-        return gson.fromJson(data, listType);
+    public static List<Product> fromString(String value) {
+        Type listType = new TypeToken<List<Product>>(){}.getType();
+        return gson.fromJson(value, listType);
     }
 
     @TypeConverter
-    public static String productsToString(List<Product> someObjects) {
-        return gson.toJson(someObjects);
+    public static String fromList(List<Product> list) {
+        return gson.toJson(list);
     }
 }

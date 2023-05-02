@@ -10,10 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import uk.ac.le.co2103.part2.R;
+import uk.ac.le.co2103.part2.activity.MainActivity;
 import uk.ac.le.co2103.part2.model.ShoppingList;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private ShoppingList sl;
 
 

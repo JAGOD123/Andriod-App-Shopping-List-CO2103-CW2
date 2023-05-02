@@ -23,7 +23,9 @@ import uk.ac.le.co2103.part2.model.ShoppingList;
 //TODO need to make you child of main activity and add an 'up' button
 public class ShoppingListActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     TextView TV_SL_name;
+    int slId;
     ShoppingList sl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,22 +35,9 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         ShoppingListDatabase db = ShoppingListDatabase.getInstance(this);
         ShoppingListDao dao = db.shoppingListDao();
-        sl = getIntent().getSerializableExtra("DATA", ShoppingList.class);
-        Log.d("MAINSHOPPINGLIST", sl.toString());
-
-        /*
-        Bundle extras= getIntent().getExtras();
-        if(extras.containsKey("DATA")){
-
-        } else if (extras.containsKey("NEW_PRODUCT")) {
-            Product newProduct = (Product) getIntent().getSerializableExtra("NEW_PRODUCT", Product.class);
-            List<Product> productList = sl.getProducts();
-            productList.add(newProduct);
-            sl.setProducts(productList);
-        }
-
-         */
-
+        slId = getIntent().getIntExtra("SL_ID", 0);
+        sl = dao.loadById(slId);
+        Log.d(TAG+"sla", sl.toString());
 
 
         TV_SL_name = findViewById(R.id.TV_SL_name);
@@ -65,7 +54,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     // fab button
     public void onClickFab(View v) {
         Intent intent = new Intent(ShoppingListActivity.this, AddProductActivity.class);
-        intent.putExtra("DATA", (Serializable) sl);
+        intent.putExtra("SL_ID",sl.getListId());
         startActivity(intent);
     }
 }

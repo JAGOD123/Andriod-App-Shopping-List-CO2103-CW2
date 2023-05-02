@@ -19,7 +19,7 @@ import uk.ac.le.co2103.part2.R;
 import uk.ac.le.co2103.part2.database.ShoppingListDao;
 import uk.ac.le.co2103.part2.model.ShoppingList;
 
-//TODO add a up button using navigation back to the main activity
+
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
     List<ShoppingList> data;

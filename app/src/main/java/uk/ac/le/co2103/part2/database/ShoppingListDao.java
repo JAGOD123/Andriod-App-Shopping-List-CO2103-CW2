@@ -19,6 +19,9 @@ public interface ShoppingListDao {
     @Query("SELECT * FROM shopping_lists WHERE listId IN (:listIds)")
     List<ShoppingList> loadAllByIds(int[] listIds);
 
+    @Query("SELECT * FROM shopping_lists WHERE listId =:listId")
+    ShoppingList loadById(int listId);
+
     @Insert
     void insert(ShoppingList sl);
 

@@ -25,8 +25,10 @@ import uk.ac.le.co2103.part2.model.ShoppingList;
 
 public class AddProductActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, Serializable {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     Product newProduct;
     String[] choiceUnit = { "Unit", "KG", "Liter"};
+    int slId;
     ShoppingList sl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,9 @@ public class AddProductActivity extends AppCompatActivity implements AdapterView
 
         ShoppingListDao dao = ShoppingListDatabase.getInstance(this).shoppingListDao();
 
-        sl = getIntent().getSerializableExtra("DATA", ShoppingList.class);
-        Log.d("HERE1", sl.toString());
+        slId = getIntent().getIntExtra("SL_ID", -1);
+        sl = dao.loadById(slId);
+        Log.d(TAG + " loadDAO", sl.toString());
 
 
 
@@ -55,46 +58,48 @@ public class AddProductActivity extends AppCompatActivity implements AdapterView
         EditText productName = (EditText) v.getRootView().findViewById(R.id.editTextName);
         EditText productQuantity = (EditText) v.getRootView().findViewById(R.id.editTextQuantity);
 
-
+        Log.d(TAG, "onClickSave:"+ productQuantity.getText().toString());
         if (productName.getText().toString().equals("")) {
             Toast toast = Toast.makeText(this, "Needs a Product Name", Toast.LENGTH_SHORT);
             toast.show();
-        } else if (productQuantity.getText().toString().equals("0")) {
+        } else if (productQuantity.getText().toString().equals("")) {
             Toast toast = Toast.makeText(this, "Needs a Quantity", Toast.LENGTH_SHORT);
             toast.show();
         } else {
             newProduct.setName(productName.getText().toString());
             newProduct.setQuantity(Integer.parseInt(productQuantity.getText().toString()));
 
-            //TODO check if product exists
-            List<Product> productList = sl.getProducts();
-            if (productList.isEmpty()){
-                ArrayList emptyProductList = new ArrayList() {{add(newProduct);}};
-                sl.setProducts((List<Product>) emptyProductList);
-            } else {
+
+            if(sl.productInList(newProduct)){
+                Toast toast = Toast.makeText(this, "Product already exists", Toast.LENGTH_SHORT);
+                toast.show();
+            } else{
+                List<Product> productList = sl.getProducts();
                 productList.add(newProduct);
                 sl.setProducts((List<Product>)productList);
+
+                //Log.d(TAG, sl.products.toString());
+                //Log.d(TAG, sl.toString());
+
+
+                dao.update(sl);
+
+                intent.putExtra("SL_ID", sl.getListId());
+                startActivity(intent);
             }
 
-            Log.d("ADD_PRODUCT_ACTITIVY", sl.products.toString());
-            Log.d("ADD_PRODUCT_ACTITIVY", sl.toString());
 
-            //TODO add room functionality
-            intent.putExtra("DATA", sl);
-            startActivity(intent);
-
-            //dao.insert(newSL);
         }
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         newProduct.setUnit(choiceUnit[position]);
-        Toast.makeText(getApplicationContext(),newProduct.unit , Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 }
