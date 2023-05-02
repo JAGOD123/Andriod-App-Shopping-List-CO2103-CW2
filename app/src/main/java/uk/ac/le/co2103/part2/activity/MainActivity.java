@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import uk.ac.le.co2103.part2.R;
 import uk.ac.le.co2103.part2.adapter.ShoppingListAdapter;
@@ -57,15 +56,16 @@ public class MainActivity extends AppCompatActivity implements OnItemLongClickLi
     public void onItemLongClick(int position) {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_box_layout);
-        TextView titleView = dialog.findViewById(R.id.popup_box_title);
+        TextView titleView = dialog.findViewById(R.id.P_title);
         titleView.setText("Delete ShoppingList?");
-        TextView messageView = dialog.findViewById(R.id.popup_box_message);
+        TextView messageView = dialog.findViewById(R.id.P_message);
         messageView.setText("Are you Sure you want to delete this Shopping List");
         ShoppingListDao dao = ShoppingListDatabase.getInstance(this).shoppingListDao();
-        Button button = dialog.findViewById(R.id.popup_box_button);
+        Button button = dialog.findViewById(R.id.B_PB_edit);
         button.setOnClickListener(v -> {
 
             dao.delete(dao.getAll().get(position));
+
             dialog.dismiss();
 
             recreate();

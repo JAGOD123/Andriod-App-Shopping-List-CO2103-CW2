@@ -23,6 +23,12 @@
         android:id="@+id/B_PB_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK"/>
+        android:text="Edit" />
+
+    <Button
+        android:id="@+id/B_PB_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete" />
 
 </LinearLayout>

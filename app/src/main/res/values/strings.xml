@@ -56,4 +56,5 @@
     <string name="defaultText">Default</string>
     <string name="image">Image</string>
     <string name="create">Create</string>
+    <string name="title_activity_update_product">UpdateProductActivity</string>
 </resources>

@@ -23,6 +23,7 @@ import uk.ac.le.co2103.part2.database.ShoppingListDatabase;
 import uk.ac.le.co2103.part2.model.Product;
 import uk.ac.le.co2103.part2.model.ShoppingList;
 
+//TODO Make the name not have PRODUCT NAME as a default, need ot be holo
 public class AddProductActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, Serializable {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -85,6 +86,7 @@ public class AddProductActivity extends AppCompatActivity implements AdapterView
                 dao.update(sl);
 
                 intent.putExtra("SL_ID", sl.getListId());
+
                 startActivity(intent);
             }
 

@@ -36,6 +36,12 @@ public class ShoppingList implements Serializable {
         return false;
     }
 
+    public Product findProductWithName(String productName){
+        for (Product product : this.products){
+            if (product.name.equalsIgnoreCase(productName)){return product;}
+        }
+        return null;
+    }
 
 
     public int getListId() {

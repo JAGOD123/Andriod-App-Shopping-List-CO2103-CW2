@@ -41,7 +41,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     public ShoppingListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, null);
 
-        // Click listener melarky
+
         ShoppingListAdapter.ViewHolder viewHolder = new ShoppingListAdapter.ViewHolder(view);
 
         viewHolder.itemView.setOnLongClickListener(v -> {
